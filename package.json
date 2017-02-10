@@ -1,0 +1,15 @@
+{
+  "name": "wolfram_bot",
+  "version": "1.0.0",
+  "description": "A simple bot for get response of wolfram in discord",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Andrea Micheli",
+  "license": "ISC",
+  "dependencies": {
+    "discord.js": "^11.0.0",
+    "ytdl-core": "^0.9.0"
+  }
+}
