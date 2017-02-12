@@ -1,9 +1,9 @@
 {
 	"login" : {
-		"token" : "Mjc5NTE3Mzg1MDA5MTM1NjE2.C3-GvQ.D6itYhkCahX2O5NL7b_L8zCTpYU"
+		"token" : "your token here"
 	},
 	"apiKey" : {
-		"ytAPI" : "AIzaSyD3wYT2SlQbiPqLd-RfQvI_ZPXfwHxcE9U",
-		"wolframAPI" : "8U642K-QU98RY93TX"
+		"ytAPI" : "your YT's api key here",
+		"wolframAPI" : "your Wolfram's api key here"
 	}
 }
