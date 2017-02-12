@@ -8,19 +8,30 @@ const client = new Discord.Client();
 const streamOptions = {seek: 0, volume: 1};
 const yt = new youtube();
 
-var info = require('./auth.json');
+//Variabile per stremmare su un canale vocale, gli viene associato un'oggeto al momento della connessione ad um canale vocale
+var connection;
+
+//Variabile che racchiude tutti i dati sotto forma di JSON
+var info = require('./config.json');
+//Variabile per la crezione del link per acquisire il video su YT, poiche la ricerca mi ritorna semplicemente l'id del video, che va aggiunto a questa varibile per andare a comporre il link del video su YT
 var initYT = 'http://www.youtube.com/watch?v=';
 
-yt.setKey(info.ytAPI);
+//Setto l'API per la ricerca personalizzata di google per YT
+yt.setKey(info.apiKey.ytAPI);
 
-client.login(info.token);
+//Faccio l'accesso al server tramite il token dell'applicazione bot
+client.login(info.login.token);
 
+//Evento che mi indica quando il bot è pronto
 client.on('ready', err => {
 	if(err) throw err;
 	console.log('Connesso');
 });
 
+//Evento che si avvia quando viene scritto un messaggio nella chat generale
 client.on('message', msg => {
+
+	//Vado a leggere il messaggio e se è uguale a quelli preimpostati esegue delle azioni, in questo caso stampo nella chat la lista di tutti i comandi
 	if(msg.content === '!help') {
 		msg.reply(
 			"\nBenvenuto in questo server di merda, COGLIONE\n" + 
@@ -34,26 +45,28 @@ client.on('message', msg => {
 		);
 	}
 
+
+	//In questo caso vado a connetermi nel canale vocale dove è presente l'utente che ha digitato il comando connect
 	if(msg.content === '!connect') {
 		var channel = msg.member.voiceChannel;
-		channel.join().then( () => {
+		channel.join().then( (con) => {
+			connection = con;
 			console.log('Entrato nel canale' + " " + channel)
 		}).catch(console.error);
 	}
 
+	//Qui invece esco dal canale vocale
 	if(msg.content == '!leave') {
 		var channel = msg.member.voiceChannel;
 		channel.leave();
 	}
 
+	//Stremmo la parte audio di un qualsiasi video presente su YT
 	if(msg.content.startsWith('!play ')) {
 		var title = msg.content.replace('!play ','');
 		var videoID;
 		yt.search(title, 2, (err,res) => {
 			if(err) throw err;
-			jsonfile.writeFile('prova.json',res,'utf8', err => {
-				if(err) throw err;
-			});
 			for(var key in res.items) {
 				if(res.items[key].id.kind == 'youtube#video') {
 					if(videoID == null) {	
@@ -63,7 +76,8 @@ client.on('message', msg => {
 				}
 			}
 			var URL = initYT + videoID;
-			ytdl(URL).pipe(fs.createWriteStream('prova.mp3'));
+			var streamer = ytdl(URL, {filter : 'audioonly'});
+			connection.playStream(streamer, {seek : 0, volume : 1});
 		});
 	}
 
