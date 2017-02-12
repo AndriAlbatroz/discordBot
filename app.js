@@ -3,6 +3,7 @@ var ytdl = require('ytdl-core');
 var fs = require('fs');
 var youtube = require('youtube-node');
 var jsonfile = require('jsonfile');
+var wolfram = require('wolfram-alpha');
 
 const client = new Discord.Client();
 const streamOptions = {seek: 0, volume: 1};
@@ -19,6 +20,11 @@ var initYT = 'http://www.youtube.com/watch?v=';
 //Setto l'API per la ricerca personalizzata di google per YT
 yt.setKey(info.apiKey.ytAPI);
 
+var wolf = wolfram.createClient(info.apiKey.wolframAPI, (err) => {
+	if(err) throw err;
+	console.log('Conesso con il server di wolfram');
+});
+
 //Faccio l'accesso al server tramite il token dell'applicazione bot
 client.login(info.login.token);
 
@@ -34,13 +40,14 @@ client.on('message', msg => {
 	//Vado a leggere il messaggio e se è uguale a quelli preimpostati esegue delle azioni, in questo caso stampo nella chat la lista di tutti i comandi
 	if(msg.content === '!help') {
 		msg.reply(
-			"\nBenvenuto in questo server di merda, COGLIONE\n" + 
+			"\nBenvenuto in questo server di merda, COGLIONE\n" +
 			"Sai che sei gay e per questo mi hai chiesto AIUTO!\n" +
 			"Detto ciò, ecco quello che puoi fare con me: \n"  +
 			"[-] !calc y=x+1 - Per usare le funzionalità di wolframAlpha\n" +
-			"[-] !sfolla     - Per farmi sfollare a caso\n" + 
-			"[-] !connect    - Per connetersi ad un canale vocale\n" + 
+			"[-] !sfolla     - Per farmi sfollare a caso\n" +
+			"[-] !connect    - Per connetersi ad un canale vocale\n" +
 			"[-] !leave      - Per disconnetersi da una stanza vocale\n" +
+			"[-] !play title - Per streammare nel canale vocale una canzone\n" +
 			"Per adesso solo questo.. ma ci stiamo lavorando."
 		);
 	}
@@ -56,7 +63,7 @@ client.on('message', msg => {
 	}
 
 	//Qui invece esco dal canale vocale
-	if(msg.content == '!leave') {
+	if(msg.content === '!leave') {
 		var channel = msg.member.voiceChannel;
 		channel.leave();
 	}
@@ -69,7 +76,7 @@ client.on('message', msg => {
 			if(err) throw err;
 			for(var key in res.items) {
 				if(res.items[key].id.kind == 'youtube#video') {
-					if(videoID == null) {	
+					if(videoID == null) {
 						videoID = res.items[key].id.videoId;
 						break;
 					}
@@ -78,6 +85,15 @@ client.on('message', msg => {
 			var URL = initYT + videoID;
 			var streamer = ytdl(URL, {filter : 'audioonly'});
 			connection.playStream(streamer, {seek : 0, volume : 1});
+			msg.reply('In esecuzione: ' + res.items[key].snippet.title);
+		});
+	}
+
+	if(msg.content.startsWith('!calc ')) {
+		var func = msg.content.replace('!calc','');
+		wolf.query(func,(err,res) => {
+			if(err) throw err;
+
 		});
 	}
 
