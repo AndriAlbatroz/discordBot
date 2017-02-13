@@ -84,7 +84,7 @@ client.on('message', msg => {
 			}
 			var URL = initYT + videoID;
 			var streamer = ytdl(URL, {filter : 'audioonly'});
-			connection.playStream(streamer, {seek : 0, volume : 1});
+			connection.playStream(streamer, info.streamConf	);
 			msg.reply('In esecuzione: ' + res.items[key].snippet.title);
 		});
 	}
@@ -93,8 +93,10 @@ client.on('message', msg => {
 		var func = msg.content.replace('!calc','');
 		wolf.query(func,(err,res) => {
 			if(err) throw err;
+			fs.writeFileSync('prova.json',JSON.stringify(res,null,2),'utf8');
+			for(var key in res) {
 
+			}
 		});
 	}
-
 });

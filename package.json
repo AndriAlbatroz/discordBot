@@ -4,7 +4,7 @@
   "description": "A simple bot for get response of wolfram in discord",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node app.js"
   },
   "author": "Andrea Micheli",
   "license": "ISC",
