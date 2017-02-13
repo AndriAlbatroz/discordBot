@@ -1,0 +1,13 @@
+{
+  "login" : {
+    "token" : "your token here"
+  },
+  "apiKey" : {
+    "ytAPI" : "your yt api key here",
+    "wolframAPI" : "your wolfram api key here"
+  },
+  "streamConf" : {
+    "seek" : 0,
+    "volume" : 0.5
+  }
+}
