@@ -4,7 +4,6 @@ var fs = require('fs');
 var youtube = require('youtube-node');
 var jsonfile = require('jsonfile');
 var wolfram = require('wolfram-alpha');
-var lol = require('lol-api');
 
 const client = new Discord.Client();
 const streamOptions = {seek: 0, volume: 1};
@@ -20,14 +19,6 @@ var initYT = 'http://www.youtube.com/watch?v=';
 
 //Setto l'API per la ricerca personalizzata di google per YT
 yt.setKey(info.apiKey.ytAPI);
-
-lol.configure('RGAPI-c89b4a62-71c6-4940-9606-74d52701d2ee', err => {
-	if(err) throw err;
-});
-
-lol.summonerByName('albaTroz98','EUW', res => {
-	console.log(res);
-});
 
 var wolf = wolfram.createClient(info.apiKey.wolframAPI, (err) => {
 	if(err) throw err;
@@ -104,9 +95,10 @@ client.on('message', msg => {
 			if(err) throw err;
 			fs.writeFileSync('prova.json',JSON.stringify(res,null,2),'utf8');
 			for(var key in res) {
-				if(res[key].title == 'Plot') {
-					console.log(key);
-				}
+				res[key].subpods.forEach(data => {
+					msg.reply(JSON.stringify(res[key].title,null,2) + '=' + JSON.stringify(data.text,null,2));
+					msg.reply('\n' + JSON.stringify(data.image,null,2));
+				});
 			}
 		});
 	}
