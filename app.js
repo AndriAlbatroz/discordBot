@@ -93,7 +93,6 @@ client.on('message', msg => {
 		var func = msg.content.replace('!calc','');
 		wolf.query(func,(err,res) => {
 			if(err) throw err;
-			fs.writeFileSync('prova.json',JSON.stringify(res,null,2),'utf8');
 			for(var key in res) {
 				res[key].subpods.forEach(data => {
 					msg.reply(JSON.stringify(res[key].title,null,2) + '=' + JSON.stringify(data.text,null,2));
