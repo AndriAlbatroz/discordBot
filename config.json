@@ -4,10 +4,15 @@
   },
   "apiKey" : {
     "ytAPI" : "AIzaSyD3wYT2SlQbiPqLd-RfQvI_ZPXfwHxcE9U",
-    "wolframAPI" : "8U642K-QU98RY93TX"
+    "wolframAPI" : "8U642K-QU98RY93TX",
+    "lolAPI" : "RGAPI-ee1eb5c6-2888-4412-9c88-d1a18ad6e057"
   },
   "streamConf" : {
     "seek" : 0,
     "volume" : 0.5
+  },
+  "lolConf" : {
+    "region" : "EUW",
+    "platformId": "EUW1"
   }
 }
