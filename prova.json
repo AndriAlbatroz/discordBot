@@ -1,22 +1,9 @@
-[
-  {
-    "primary": null,
-    "title": "Input interpretation",
-    "subpods": [
-      {
-        "text": "root locus plot | transfer function  (1 + s)/(-4 + s)",
-        "image": "http://www4f.wolframalpha.com/Calculate/MSP/MSP115322ha4f3h398bh3120000416hf9d6079657a8?MSPStoreType=image/gif&s=55"
-      }
-    ]
-  },
-  {
-    "primary": null,
-    "title": "Root locus plot",
-    "subpods": [
-      {
-        "text": "\n(shown for gain between 0 and 10)",
-        "image": "http://www4f.wolframalpha.com/Calculate/MSP/MSP115422ha4f3h398bh3120000605918hd998e5ig0?MSPStoreType=image/gif&s=55"
-      }
-    ]
+{
+  "albatroz98": {
+    "id": 81565333,
+    "name": "albaTroz98",
+    "profileIconId": 1107,
+    "revisionDate": 1487191001000,
+    "summonerLevel": 30
   }
-]
+}

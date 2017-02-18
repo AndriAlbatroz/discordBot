@@ -4,10 +4,13 @@ var fs = require('fs');
 var youtube = require('youtube-node');
 var jsonfile = require('jsonfile');
 var wolfram = require('wolfram-alpha');
+var speedTest = require('speedtest-net');
+const lolapi = require('lolapi')('RGAPI-ee1eb5c6-2888-4412-9c88-d1a18ad6e057','euw');
 
 const client = new Discord.Client();
 const streamOptions = {seek: 0, volume: 1};
 const yt = new youtube();
+const test = speedTest({maxTime : 5000});
 
 //Variabile per stremmare su un canale vocale, gli viene associato un'oggeto al momento della connessione ad um canale vocale
 var connection;
@@ -101,4 +104,33 @@ client.on('message', msg => {
 			}
 		});
 	}
+
+	if(msg.content === '!speed') {
+		test.on('data',data => {
+			msg.reply(JSON.stringify(data,null,2));
+		});
+	}
+
+	if(msg.content.startsWith('!getgame ')) {
+		var sumName = msg.content.replace('!getgame ','');
+		var id_;
+		var options = {
+  		useRedis: true,
+  		hostname: '127.0.0.1',
+  		port: 6379,
+  		cacheTTL: 7200
+		};
+
+		lolapi.Summoner.getByName(sumName, (err,res) => {
+			if(err) throw err;
+			for(var key in res) {
+				id_ = res[key].id;
+			}
+		});
+		lolapi.CurrentGame.getBySummonerId(id_,options,(err,response) => {
+			if(err) throw err;
+			console.log(response);
+		});
+	}
+
 });
